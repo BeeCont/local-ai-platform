@@ -1,0 +1,137 @@
+[project]
+name = "local-ai-platform"
+version = "0.1.0"
+description = "A local AI platform for personal use."
+readme = "README.md"
+authors = [
+    { name = "BeeCont", email = "yegor.belik.coder@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+[project.scripts]
+local-ai = "cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py314"
+
+# Tell Ruff where application code lives, so import and source analysis
+# work correctly with the src/ layout.
+src = ["src"]
+
+# Respect .gitignore so generated files and ignored local artifacts
+# are not accidentally included in linting.
+respect-gitignore = true
+
+[tool.ruff.format]
+# Use double quotes consistently across the codebase.
+quote-style = "double"
+
+# Use standard Python indentation: four spaces, no tabs.
+indent-style = "space"
+
+# Preserve trailing commas where present; this makes multiline changes
+# cleaner and reduces unnecessary diffs.
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
+select = [
+    "E",      # Catch PEP 8 style errors and common formatting mistakes.
+    "F",      # Catch undefined names, unused imports, and other basic defects.
+    "B",      # Catch likely bugs and unsafe or error-prone Python patterns.
+    "I",      # Keep imports consistently sorted and grouped.
+    "UP",     # Prefer modern Python syntax supported by our target version.
+    "N",      # Keep names consistent with established Python naming conventions.
+    "S",      # Flag potentially unsafe patterns relevant to security-sensitive code.
+    "ANN",    # Require consistent annotations at function and interface boundaries.
+    "C4",     # Detect unnecessarily complicated or inefficient comprehensions.
+    "C90",    # Flag overly complex functions that are harder to verify and maintain.
+    "SIM",    # Identify redundant constructs that can be expressed more clearly.
+    "ASYNC",  # Catch common async mistakes in concurrent and I/O-bound code.
+    "PERF",   # Flag common performance issues in frequently executed code.
+    "RUF",    # Apply Ruff-specific checks that catch additional mistakes and inconsistencies.
+    "PLC",    # Detect convention and design issues that can hurt maintainability.
+    "PLE",    # Catch Pylint-class errors that indicate likely defects.
+    "PLW",    # Flag suspicious patterns that deserve engineering review.
+]
+
+# Do not suppress rules globally by default. Add an exception only when
+# there is a documented reason and the exception is narrowly scoped.
+ignore = []
+
+[tool.ruff.lint.mccabe]
+# Keep individual functions reasonably simple. More complex logic should
+# usually be split into smaller, independently testable units.
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+# Assertions are a normal and useful way to express test expectations.
+# Keep the security rule against assert in production code.
+"tests/**/*.py" = ["S101"]
+
+[tool.mypy]
+# Analyze types using the Python version targeted by the project.
+python_version = "3.14"
+
+# Type-check the application source by default. Tests can be added to this
+# scope later if we want strict typing across the entire test suite.
+files = ["src"]
+
+# Enable mypy's strict checks to expose missing annotations, unsafe types,
+# and other type-related defects at development time.
+strict = true
+
+# Detect code that static analysis proves cannot be reached.
+warn_unreachable = true
+
+# Catch misspelled, obsolete, or incorrectly configured mypy options.
+warn_unused_configs = true
+
+# Catch casts that do not add useful type information.
+warn_redundant_casts = true
+
+# Catch type-ignore comments that are no longer necessary.
+warn_unused_ignores = true
+
+# Require more precise comparisons when operand types could make equality
+# checks misleading or unsafe.
+strict_equality = true
+
+# Include error codes so suppressions and fixes can target a specific issue.
+show_error_codes = true
+
+# Make diagnostic output easier to read in terminals and CI logs.
+pretty = true
+
+[tool.pytest.ini_options]
+# Set a minimum pytest version for predictable test-runner behavior.
+minversion = "8.0"
+
+# Keep automated test discovery inside the dedicated tests directory.
+testpaths = ["tests"]
+
+# Allow tests to import the package directly from src/ during local runs.
+# The project should still be installed normally for packaging and deployment.
+pythonpath = ["src"]
+
+# -ra reports additional test outcomes, including skips and expected failures.
+# Strict markers prevent misspelled or unregistered test markers.
+# Strict config makes unknown pytest configuration options an error.
+addopts = "-ra --strict-markers --strict-config"
+
+# Treat an unexpected pass of an xfail test as a failure, because it may
+# mean that a known defect has been fixed and the test annotation is stale.
+xfail_strict = true
