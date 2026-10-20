@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint.yml
+
+  format:
+    name: Format
+    needs: [lint]
+    uses: ./.github/workflows/format.yml
+
+  type-check:
+    name: Type Check
+    needs: [format]
+    uses: ./.github/workflows/type-check.yml

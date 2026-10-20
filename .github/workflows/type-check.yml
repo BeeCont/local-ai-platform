@@ -1,0 +1,23 @@
+name: Type Check
+
+on:
+  workflow_call:
+
+jobs:
+  type-check:
+    name: Static Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: ./.python-version
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Run type checker
+        run: uv run mypy .
