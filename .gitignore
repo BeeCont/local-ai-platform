@@ -14,3 +14,10 @@ wheels/
 
 # Vs Code settings
 .vscode/
+
+
+# Ruff cache
+.ruff_cache/
+
+# Logs
+logs/
