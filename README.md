@@ -12,7 +12,7 @@ The project provides the foundation for building and running a personal AI assis
 
 ## Development
 
-The project uses [uv](https://docs.astral.sh/uv/) for Python project and dependency management, [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, and [MyPy](https://mypy.readthedocs.io/) for static type checking.
+The project uses [uv](https://docs.astral.sh/uv/) for Python project and dependency management, [Code Style](docs/code-style.md) for coding conventions.
 
 ## Logging
 
