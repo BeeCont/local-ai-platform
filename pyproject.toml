@@ -7,7 +7,14 @@ authors = [
     { name = "BeeCont", email = "yegor.belik.coder@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "docker>=7.2.0",
+]
+
+[project.optional-dependencies]
+cli = [
+    "typer>=0.27.3",
+]
 
 [dependency-groups]
 dev = [
@@ -80,7 +87,7 @@ max-complexity = 10
 [tool.ruff.lint.per-file-ignores]
 # Assertions are a normal and useful way to express test expectations.
 # Keep the security rule against assert in production code.
-"tests/**/*.py" = ["S101"]
+"tests/**/*.py" = ["S101", "ANN", "B018"]
 
 [tool.mypy]
 # Analyze types using the Python version targeted by the project.
@@ -117,6 +124,12 @@ show_error_codes = true
 pretty = true
 
 [tool.pytest.ini_options]
+# Define custom markers to categorize tests by their scope and dependencies.
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests requiring external services",
+    "e2e: End-to-end tests",
+]
 # Set a minimum pytest version for predictable test-runner behavior.
 minversion = "8.0"
 
